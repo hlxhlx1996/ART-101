@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html lang=en>
+<head>
+<meta charset="utf-8">
+<style type = "text/css">
+  body{
+    background-image: url("../img/background.jpg");
+    background-size: 100%;
+    color: white;
+  }
+  h1{
+    font-family: 'courier new';
+    font-size:160%;
+    margin:0 auto; 
+    word-spacing:.05em;
+    position: relative;
+    left: 5%;
+    color: #00acc1;
+  }
+  h2{
+    font-family: 'courier new';
+    font-size:140%;
+    margin:.5em 0;
+    word-spacing:.05em;
+    position: relative;
+    left: 5%;
+    color: #006064;
+  }
+  h4{
+    font-family: 'Trebuchet MS';
+    font-size:110%;
+    position: relative;
+    left: 20%;
+    color: #80cbc4;
+  }
+  p{
+    max-width:40em;
+    font-size:120%;
+    line-height:1.5em;
+    font-family: 'bookman';
+    color: #e1f5fe;
+    position: relative;
+    left: 20%;
+  }
+  img{
+    position: relative;
+    left: 22%;
+  }
+  .reference{
+    position: relative;
+    left: 0%;
+  }
+</style>
+
+<title>Assign 6</title>
+<!-- Materilize  A css package-->
+<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
+</head>
+
+<body>
+  <nav class="N/A transparent" id="navbar">
+    <div class="nav-wrapper">
+      <ul class="right hide-on-med-and-down">
+        <li><a href="../index.html">Assign 1</a></li>
+        <li><a href="assign2.html">Assign 2</a></li>
+        <li><a href="assign3.html">Assign 3</a></li>
+        <li><a href="assign4-1.html">Assign 4-1</a></li>
+        <li><a href="assign4-2.html">Assign 4-2</a></li>
+        <li><a href="assign4-3.html">Assign 4-3</a></li>
+        <li><a href="assign5.html">Assign 5</a></li>
+        <li class="active"><a href="assign6.html">Assign 6</a></li>
+        <li><a href="assign7.html">Assign 7</a></li>
+      </ul>
+    </div>
+  </nav>
+  <header>
+    <h1><b>WORD2VEC IN MULTI-LANGUAGE<b></h1>
+    <h2>Liuxuan Huang</h2>
+  </header>
+  <div class="row">
+    <div class="col s12 m3 offset-s1">
+      <div class="card-panel brown lighten-4">
+        <span class="white-text">
+          <a href="#intro">- Introduction</a>
+          <br>
+          <a href="#problem">- Statement Of Problem</a>
+          <br>
+          <a href="#soln">- Potential Solutions</a>
+          <br>
+          <a href="#reference">- Reference</a>
+        </span>
+      </div>
+    </div>
+  </div>
+            
+  <article>
+    <a name='intro'></a>
+    <br>
+    <h4>INTRODUCTION</h4>
+    <p>Word2vec, which stands for “word to vector”, is an open-source algorithm created by a team of researchers led by Tomas Mikolov at Google. It builds a group of related models that are used to produce word embedding for further statistical analysis. These models are two-layer neural networks that are trained to reconstruct linguistic contexts of words. In other words, with proper training, words or phrases can be categorized into groups with similar meanings.</p>
+    <br>
+    <img src="../img/assign6-1.jpg" alt="Graph">
+    <br>
+    <p>The model takes in input of a large corpus of text and produces a vector space, usually of several hundred dimensions, with each unique word in the corpus being assigned a corresponding vector in the space. The figure above shows a two dimensional vector space after training the models by myself. Each “dot” on the graph shows a word represented by a vector. The closer the vectors are with each other, the greater similarity they may have. For example, figure 1 shows that “number” and “series” are close to each other since they are both used to represent numeric values. On the contrary, “government” is far from the two words since they have completely different meanings and not related at all.</p>
+    <br>
+    <p>The mechanism under this algorithm is to scan the plain text according to a specific target word. Usually, the words with similar meanings share a similar context environment. For example, if “apple” is the target word, “banana” and “mechanical” are words to be searched. The word “apple” and “banana” are both possible options for the sentence “I like to eat …” On the contrary, the word “mechanical” can never appear in the example sentence. The algorithm takes this sentence as an example together with other similar ones to determine whether the two words are relevant or not. Since “banana” and “apple” are relevant, the algorithm would make the vector of “banana” closer to that of “apple”. On the other hand, the algorithm would also make the vector of “mechanical” far away from that of “apple” since the two words are not relevant.</p>
+    <br>
+    <img src="../img/assign6-3.png" alt="algorithm" width="600" height="450">
+    <br>
+    <p>The algorithm then processes the data through several hidden layers like an example shown above. Details for the hidden layer is not going to be covered in this paper. After the data has gone through the hidden layers, each word would then be turned into a vector that contains metadata within it. The vectors would have connections between them as shown below as an example. If the results are somehow correct, we can manipulate the word vectors as if we were manipulating vectors.
+    </p>
+    <img src="../img/assign6-4.png" alt="Graph2" width="900" height="400">
+    <br>
+    <p>Since Word2vec is a brand-new algorithm that was just released by Google, it still has lots of potential problems that need to be fixed and optimized. Problems can be related to efficiency, performance, low-optimization, and so on. The following section presents a problem that I have found to be worth optimizing and feasible to solve.</p>
+    
+    <br>
+    <a name='problem'></a>
+    <br>
+    <h4>STATEMENT OF PROBLEM</h4>
+
+    <p>The problem to be considered is that Word2vec can only process English and most of the other Western languages such as French and German, since these languages have already divided words by blanks. The only preprocessing procedure is to eliminate punctuations and numbers. This can be done easily by scanning the plain text and storing only alphabetic characters and blanks. However, for most Asian languages, this is not the case anymore. Asian languages, such as Chinese, are divided only by punctuations between sentences. There is no blanks or any other dividers between words. Therefore for these languages, there may be several different meanings within the same sentence depending on the way to divide the sentence. This can be difficult since the division can vary according to the actual meaning of the sentence. Sometimes the tokening may even depend on the context of the entire passage. Much more preprocessing procedures are needed for Chinese than English.</p>
+    <br>
+    <p>It is necessary to focus on the reconstruction of words in the Asian languages, because of its long history and profound culture. The technology can be even more helpful for languages with long history since it can even interpret ancient literature which is arcane for modern people if the technology has greatly improved its accuracy. Although the main topic in this paper is Chinese words, a similar technology can be applied to other Asian languages such as Japanese and Korean as well if Chinese words can be successfully reconstructed like English words.</p>
+    <br>
+    <p>To think even further, there will be heavier tasks since person names, specific terms, and name of places are going to appear in the context, especially for literatures. Specific vocabulary needs to be added into the database for that particular passage in order to let the model recognize the word, otherwise the trained result would still be useless. For other passages, the special vocabulary would then vary according to the context.</p>
+    <br>
+    <p>The condition where the same word could have different meanings by combing other words is worth considering as well. For example, the word “ 南 京 ” represents a city of China called Nanjing. However, “南京大桥” can be a bridge in another city; “南京路” can represent the name of a road; “ 南 京 ” can even represent a person’s name. This problem also exists in English: “May” can represent both the name of a month and name for a person. Different meanings of a single word may affect the trained result. It is even more complicated in Chinese since different meanings would affect the way to tokenize the sentences and therefore leads to different trained results.</p>
+    
+    <br>
+    <a name='soln'></a>
+    <br>
+    <h4>POTENTIAL SOLUTIONS</h4>
+    
+    <p>To solve the problem that word2vec cannot process Chinese words, the first thing to consider is text segmentation, which means that the input text should be segmented into something similar to English text. For example, the picture on the left is some normal Chinese passages. We can see that there is no spaces between each word. Our aim is to parse those words into the graph on the right. After parsing them successfully, we will then be able to manipulate the data.</p>
+    <img src="../img/assign6-5.jpg" alt="parse_before" width="500" height="350">
+    <img src="../img/assign6-2.jpg" alt="parse_after" width="500" height="350">
+    <br>
+    <p>Potential solutions are as follows:</p>
+    <br>
+    <p>1.  Segmentation by Machine<p>
+    <p>This method is the most straight-forward one. The procedure only needs to scan the text between every two punctuations together with a large enough Chinese vocabulary. Each time a section of about two to three characters matches one of the words in the vocabulary, space is placed to separate the word from the rest of the sentence. Continue the process until all the words are separated. Efficiency can be greatly improved by scanning the text from left to right and from right to left simultaneously.</p>
+    <br>
+    <p>2.  Segmentation by Training</p>
+    <p>This approach requires Machine learning, a subfield of Artificial Intelligence. The mechanism is that the model takes in input of various examples of already segmented text. As the model learns more and more “experience” in how to separate the plain text, the model would then produce more accurate results. There is already available models such as N-gram, Hidden Markov Model, ME, Conditional Random Fields and so much more.</p>
+    <br>
+    <p>3.  Segmentation by “Jieba”</p>
+    <p>There is an already-developed tool based on the programming language, Python. The tool is called “Jieba”, which stands for “to stutter” in Chinese. It is developed by a Chinese scientist called Junyi Sun and is the currently best Python Chinese word segmentation module. The tool supports three kinds of segmentation mode:
+    • Accurate mode, which attempts to divide the sentence in the most accurate way and is capable of context analysis.
+    • All mode, which attempts to scan all the words that appear in the sentence. This mode can be very fast, but there may be ambiguous or various meanings.
+    • Search Engine mode, which is based on accurate mode and divide long words further in order to improve frequency of words.</p>
+    <br>
+    <p>While the last approach may seem to be the easiest one, various experiments and different methods are still worth trying to achieve the most optimal result. In order to resolve text representation issue, the program should also be modified to change the coder and decoder in order to present meaningful Chinese characters.</p>
+
+    <br>
+    <a name='reference'></a>
+    <br>
+    <h4 class='reference'>REFERENCES</h4>
+    <li>“Vector Representations of Words.” TensorFlow. Web. 22 July. 2017. Sun, Junyi.</li>
+    <li>“Chinese Words Segmentation Utilities.” Python. Web. 23 July. 2017. Son, John.</li> 
+    <li>“Theory of Chinese Words Segmentation.” CSDN Blog. Web. 22 July. 2017. Munoz, Andres.</li>
+    <li>“Machine Learning and Optimization.” Courant Institute of Mathematical Sciences. Web. 23 July. 2017.
+Mikolov, Tomas.</li> 
+    <li>"Efficient Estimation of Word Representations in Vector Space". arXiv: 1301.3781
+Mikolov, Tomas; Sutskever, Ilya; Chen, Kai; Corrado, Greg; Dean, Jeffrey.</li>
+    <li>"Distributed Representations of Words and Phrases and their Compositionality".
+2013. arXiv:1310.4546</li>
+</article>
+</body>
+
+</html>
